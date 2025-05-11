@@ -1,0 +1,51 @@
+{
+  "name": "collapse-docs",
+  "displayName": "Collapse Docs",
+  "description": "Automatically collapses Python docstrings",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "activationEvents": [
+    "onLanguage:python",
+    "onCommand:collapseDocs.run",
+    "onCommand:collapseDocs.unfold"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "collapseDocs.run",
+        "title": "Collapse All Docstrings"
+      },
+      {
+        "command": "collapseDocs.unfold",
+        "title": "Uncollapse All Docstrings"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "collapseDocs.run",
+          "when": "editorLangId == python",
+          "group": "navigation"
+        },
+        {
+          "command": "collapseDocs.unfold",
+          "when": "editorLangId == python",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0",
+    "vscode": "^1.1.37"
+  }
+}
