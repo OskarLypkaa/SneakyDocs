@@ -1,7 +1,8 @@
 {
   "name": "collapse-docs",
   "displayName": "Collapse Docs",
-  "description": "Automatically collapses Python docstrings",
+  "description": "Quickly collapse or uncollapse all Python docstrings via right-click menu.",
+  "publisher": "Oskarlypka",
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.60.0"
@@ -38,6 +39,11 @@
       ]
     }
   },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "icon": "images/icon.png",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
