@@ -1,39 +1,39 @@
 {
   "name": "collapse-docs",
   "displayName": "Collapse Docs",
-  "description": "Quickly collapse or uncollapse all Python docstrings via right-click menu.",
+  "description": "Quickly collapse or uncollapse all docstrings and JSDoc comments via right-click menu.",
   "publisher": "Oskarlypka",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "engines": {
     "vscode": "^1.60.0"
   },
   "activationEvents": [
     "onLanguage:python",
-    "onCommand:collapseDocs.run",
-    "onCommand:collapseDocs.unfold"
+    "onLanguage:javascript",
+    "onLanguage:typescript"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "collapseDocs.run",
-        "title": "Collapse All Docstrings"
+        "title": "Collapse All Docstrings / JSDoc"
       },
       {
         "command": "collapseDocs.unfold",
-        "title": "Uncollapse All Docstrings"
+        "title": "Uncollapse All Docstrings / JSDoc"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "collapseDocs.run",
-          "when": "editorLangId == python",
+          "when": "editorLangId == python || editorLangId == javascript || editorLangId == typescript",
           "group": "navigation"
         },
         {
           "command": "collapseDocs.unfold",
-          "when": "editorLangId == python",
+          "when": "editorLangId == python || editorLangId == javascript || editorLangId == typescript",
           "group": "navigation"
         }
       ]

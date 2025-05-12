@@ -5,14 +5,15 @@ const docstringCache = new Map<string, vscode.FoldingRange[]>();
 let hideDecoration: vscode.TextEditorDecorationType;
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('CollapseDocs (Python) activated');
+	console.log('CollapseDocs activated');
 
 	hideDecoration = vscode.window.createTextEditorDecorationType({
 		backgroundColor: new vscode.ThemeColor('editor.background'),
 		isWholeLine: true
 	});
 
-	const provider: vscode.FoldingRangeProvider = {
+	// Python docstring folding provider
+	const pythonProvider: vscode.FoldingRangeProvider = {
 		provideFoldingRanges(document: vscode.TextDocument): vscode.FoldingRange[] {
 			if (document.languageId !== 'python') return [];
 
@@ -34,13 +35,44 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	};
 
+	// JSDoc folding provider
+	const jsdocProvider: vscode.FoldingRangeProvider = {
+		provideFoldingRanges(document: vscode.TextDocument): vscode.FoldingRange[] {
+			if (!['javascript', 'typescript'].includes(document.languageId)) return [];
+
+			const text = document.getText();
+			const ranges: vscode.FoldingRange[] = [];
+			const jsdocRegex = /\/\*\*([\s\S]*?)\*\//g;
+
+			let match: RegExpExecArray | null;
+			while ((match = jsdocRegex.exec(text))) {
+				const start = document.positionAt(match.index).line;
+				const end = document.positionAt(match.index + match[0].length).line;
+				if (end > start) {
+					ranges.push(new vscode.FoldingRange(start, end));
+				}
+			}
+
+			docstringCache.set(document.uri.toString(), ranges);
+			return ranges;
+		}
+	};
+
 	context.subscriptions.push(
-		vscode.languages.registerFoldingRangeProvider({ language: 'python', scheme: 'file' }, provider)
+		vscode.languages.registerFoldingRangeProvider({ language: 'python', scheme: 'file' }, pythonProvider),
+		vscode.languages.registerFoldingRangeProvider(
+			[{ language: 'javascript', scheme: 'file' }, { language: 'typescript', scheme: 'file' }],
+			jsdocProvider
+		)
 	);
 
+	// Collapse command
 	const foldCommand = vscode.commands.registerCommand('collapseDocs.run', async () => {
 		const editor = vscode.window.activeTextEditor;
-		if (!editor || editor.document.languageId !== 'python') return;
+		if (!editor) return;
+
+		const lang = editor.document.languageId;
+		if (!['python', 'javascript', 'typescript'].includes(lang)) return;
 
 		const docUri = editor.document.uri.toString();
 		const ranges = docstringCache.get(docUri) ?? [];
@@ -66,9 +98,13 @@ export function activate(context: vscode.ExtensionContext) {
 		editor.setDecorations(hideDecoration, decorations);
 	});
 
+	// Unfold command
 	const unfoldCommand = vscode.commands.registerCommand('collapseDocs.unfold', async () => {
 		const editor = vscode.window.activeTextEditor;
-		if (!editor || editor.document.languageId !== 'python') return;
+		if (!editor) return;
+
+		const lang = editor.document.languageId;
+		if (!['python', 'javascript', 'typescript'].includes(lang)) return;
 
 		await vscode.commands.executeCommand('editor.unfoldAll');
 		editor.setDecorations(hideDecoration, []);
