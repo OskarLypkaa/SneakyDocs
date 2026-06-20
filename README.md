@@ -12,7 +12,7 @@
 - Helps improve code readability by hiding large documentation blocks
 - Toggles supported doc blocks between collapsed and expanded states with one command
 - Keeps the line you were on centered after collapsing, so the view does not jump
-- Blends collapsed doc lines into the editor background, without changing your settings
+- Hides VS Code's folding highlight on collapsed doc lines so they blend in (opt-out — see [Settings](#settings))
 
 ## What's New
 
@@ -39,6 +39,12 @@ The default keyboard shortcut for `Toggle Collapse Docs` is `Ctrl+Shift+Alt+D`.
 
 Alternatively, use the command palette (`Ctrl+Shift+P`) and run:
 - `Toggle Collapse Docs`
+
+## Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `collapseDocs.hideFoldingHighlight` | `true` | Hide VS Code's folding highlight on collapsed lines so doc blocks blend in. While enabled, the extension keeps `editor.foldingHighlight` off and restores your previous value when it is disabled. Set to `false` to keep the highlight. |
 
 ### Acknowledgments 🎉
 A huge thank you to [Trishan Preet Singh](https://www.linkedin.com/in/007-tripi-wick/) for collaborating! This is the first open-source collaboration for this project, and I am extremely grateful. Trishan shed new light on the it with his excellent fixes and additions. Thank you! 🤜🤛

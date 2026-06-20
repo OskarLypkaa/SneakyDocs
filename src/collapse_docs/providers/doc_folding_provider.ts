@@ -9,9 +9,8 @@ export abstract class DocFoldingProvider implements vscode.FoldingRangeProvider 
 
     public provideFoldingRanges(document: vscode.TextDocument, _context?: vscode.FoldingContext,
         token?: vscode.CancellationToken): vscode.FoldingRange[] {
-        // A non-undefined token means VS Code (not our own code) is requesting ranges,
-        // i.e. it is building its folding model — so editor.fold will now work.
-        // Signal anyone waiting to fold this document.
+        // A token means VS Code (not our own code) is requesting ranges, i.e. its
+        // folding model is being built — so a fold will land correctly from now on.
         if (token !== undefined) {
             this.markModelReady(document);
         }
@@ -32,9 +31,6 @@ export abstract class DocFoldingProvider implements vscode.FoldingRangeProvider 
         return ranges;
     }
 
-    // Resolves once VS Code has requested folding ranges for the document, which
-    // means its folding model exists and a fold will be complete rather than partial.
-    // Resolves immediately if that has already happened.
     public whenModelReady(document: vscode.TextDocument): Promise<void> {
         const uri = document.uri.toString();
         if (this.readyDocuments.has(uri)) return Promise.resolve();
@@ -46,7 +42,7 @@ export abstract class DocFoldingProvider implements vscode.FoldingRangeProvider 
         });
     }
 
-    private markModelReady(document: vscode.TextDocument): void {
+    private markModelReady(document: vscode.TextDocument) {
         const uri = document.uri.toString();
         this.readyDocuments.add(uri);
 
@@ -57,10 +53,7 @@ export abstract class DocFoldingProvider implements vscode.FoldingRangeProvider 
         }
     }
 
-    // Forget a document's readiness (e.g. when it is closed) so that reopening it
-    // waits for VS Code to rebuild the folding model instead of folding against a
-    // stale "ready" flag.
-    public forgetDocument(document: vscode.TextDocument): void {
+    public forgetDocument(document: vscode.TextDocument) {
         const uri = document.uri.toString();
         this.readyDocuments.delete(uri);
         this.readyWaiters.delete(uri);
