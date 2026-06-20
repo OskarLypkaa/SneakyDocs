@@ -3,7 +3,27 @@
   "displayName": "Collapse Docs",
   "description": "Quickly collapse or uncollapse all docstrings and JSDoc comments via right-click menu.",
   "publisher": "Oskarlypka",
-  "version": "1.6.0",
+  "version": "1.6.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OskarLypkaa/collapse_docs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OskarLypkaa/collapse_docs/issues"
+  },
+  "homepage": "https://github.com/OskarLypkaa/collapse_docs#readme",
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "fold",
+    "collapse",
+    "docstring",
+    "jsdoc",
+    "comments",
+    "documentation"
+  ],
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -64,10 +84,14 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "lint": "eslint src"
   },
   "devDependencies": {
-    "typescript": "^4.0.0",
-    "vscode": "^1.1.36"
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.60.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^8.0.0"
   }
 }

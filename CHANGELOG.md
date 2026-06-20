@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.1] - 2026-06-13
+### Changed
+- Modernized the development toolchain (no change to extension behavior):
+  - Replaced the deprecated `vscode` dev dependency with `@types/vscode` and
+    `@types/node`, removing the `postinstall` step and clearing all known
+    `npm audit` vulnerabilities.
+  - Added a `.vscodeignore` so the published package ships only the compiled
+    extension, icon, and docs — no sources, fixtures, or configs.
+  - Added `repository`, `bugs`, `homepage`, `license`, `categories`, and
+    `keywords` to the manifest for the marketplace listing.
+  - Added an ESLint flat config and a `lint` script, and a GitHub Actions
+    workflow running lint and compile on pushes and pull requests.
+
 ## [1.6.0] - 2026-06-13
 ### Added
 - New setting `collapseDocs.autoCollapseOnOpen` (default `false`), requested by
