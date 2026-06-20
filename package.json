@@ -3,7 +3,7 @@
   "displayName": "Collapse Docs",
   "description": "Quickly collapse or uncollapse all docstrings and JSDoc comments via right-click menu.",
   "publisher": "Oskarlypka",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -38,7 +38,17 @@
         "key": "ctrl+shift+alt+d",
         "when": "editorTextFocus && (editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python)"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Collapse Docs",
+      "properties": {
+        "collapseDocs.hideFoldingHighlight": {
+          "type": "boolean",
+          "default": true,
+          "description": "Hide VS Code's folding highlight on collapsed lines so doc blocks blend in. While enabled, the extension keeps editor.foldingHighlight off and restores your previous value when it is disabled. Turn this off to keep the highlight."
+        }
+      }
+    }
   },
   "galleryBanner": {
     "color": "#1e1e1e",
