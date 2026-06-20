@@ -1,0 +1,14 @@
+# Everything here is excluded from the published .vsix. Only the compiled
+# extension, its icon, and the docs ship.
+.vscode/**
+.github/**
+src/**
+mocked_files/**
+node_modules/**
+out/**/*.map
+**/*.ts
+tsconfig.json
+eslint.config.mjs
+.gitignore
+.vscodeignore
+package-lock.json
