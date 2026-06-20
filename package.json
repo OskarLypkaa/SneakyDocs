@@ -3,7 +3,27 @@
   "displayName": "Collapse Docs",
   "description": "Quickly collapse or uncollapse all docstrings and JSDoc comments via right-click menu.",
   "publisher": "Oskarlypka",
-  "version": "1.4.1",
+  "version": "1.7.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OskarLypkaa/collapse_docs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OskarLypkaa/collapse_docs/issues"
+  },
+  "homepage": "https://github.com/OskarLypkaa/collapse_docs#readme",
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "fold",
+    "collapse",
+    "docstring",
+    "jsdoc",
+    "comments",
+    "documentation"
+  ],
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -13,6 +33,11 @@
     "onLanguage:typescript",
     "onLanguage:javascriptreact",
     "onLanguage:typescriptreact",
+    "onLanguage:c",
+    "onLanguage:cpp",
+    "onLanguage:java",
+    "onLanguage:csharp",
+    "onLanguage:rust",
     "onCommand:collapseDocs.toggle"
   ],
   "main": "./out/extension.js",
@@ -27,7 +52,7 @@
       "editor/context": [
         {
           "command": "collapseDocs.toggle",
-          "when": "editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python",
+          "when": "editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python || editorLangId == c || editorLangId == cpp || editorLangId == java || editorLangId == csharp || editorLangId == rust",
           "group": "collapseDocsGroup@1"
         }
       ]
@@ -36,9 +61,24 @@
       {
         "command": "collapseDocs.toggle",
         "key": "ctrl+shift+alt+d",
-        "when": "editorTextFocus && (editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python)"
+        "when": "editorTextFocus && (editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python || editorLangId == c || editorLangId == cpp || editorLangId == java || editorLangId == csharp || editorLangId == rust)"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Collapse Docs",
+      "properties": {
+        "collapseDocs.hideFoldingHighlight": {
+          "type": "boolean",
+          "default": true,
+          "description": "Hide VS Code's folding highlight on collapsed lines so doc blocks blend in. While enabled, the extension keeps editor.foldingHighlight off and restores your previous value when it is disabled. Turn this off to keep the highlight."
+        },
+        "collapseDocs.autoCollapseOnOpen": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically collapse documentation blocks the first time a supported file is opened."
+        }
+      }
+    }
   },
   "galleryBanner": {
     "color": "#1e1e1e",
@@ -49,10 +89,14 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "lint": "eslint src"
   },
   "devDependencies": {
-    "typescript": "^4.0.0",
-    "vscode": "^1.1.36"
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.60.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^8.0.0"
   }
 }
