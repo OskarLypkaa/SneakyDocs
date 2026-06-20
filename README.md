@@ -1,6 +1,6 @@
 # Collapse Docs
 
-**Collapse Docs** is a lightweight extension that adds a right-click context menu option to toggle the visibility of all Python docstrings and JavaScript/TypeScript JSDoc blocks in the editor.
+**Collapse Docs** is a lightweight extension that adds a right-click context menu option to toggle the visibility of documentation comments — Python docstrings, JavaScript/TypeScript JSDoc, and C-style comments (C, C++, Java, C#, Rust) — in the editor.
 
 ## Features
 
@@ -9,6 +9,7 @@
 - Automatically detects and folds:
   - Python docstrings using triple quotes (`'''` or `"""`)
   - JSDoc comments using `/** ... */` in JavaScript, TypeScript, JSX, and TSX files
+  - C-style comments in C, C++, Java, C#, and Rust: block comments (`/* ... */`, including doc variants `/** */` and `/*! */`) and runs of consecutive line comments (`//`, `///`, `//!`)
 - Helps improve code readability by hiding large documentation blocks
 - Toggles supported doc blocks between collapsed and expanded states with one command
 - Keeps the line you were on centered after collapsing, so the view does not jump
@@ -16,6 +17,10 @@
 - Hides VS Code's folding highlight on collapsed doc lines so they blend in (opt-out — see [Settings](#settings))
 
 ## What's New
+
+### 1.7.0
+
+- **C-style language support** — fold block comments (`/* ... */`, including doc variants `/** */` and `/*! */`) and runs of consecutive line comments (`//`, `///`, `//!`) in C, C++, Java, C#, and Rust files, just like JSDoc and Python docstrings.
 
 ### 1.6.0
 
@@ -33,10 +38,14 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history.
 - Python (`.py`)
 - JavaScript (`.js`, `.jsx`)
 - TypeScript (`.ts`, `.tsx`)
+- C / C++ (`.c`, `.cpp`, `.h`)
+- Java (`.java`)
+- C# (`.cs`)
+- Rust (`.rs`)
 
 ## How to Use
 
-1. Open any `.py`, `.js`, `.jsx`, `.ts`, or `.tsx` file in the editor.
+1. Open any supported file (`.py`, `.js`, `.jsx`, `.ts`, `.tsx`, `.c`, `.cpp`, `.h`, `.java`, `.cs`, `.rs`) in the editor.
 2. Right-click anywhere in the editor.
 3. Choose **Toggle Collapse Docs** - collapses docs when open and unfolds them when already collapsed.
 

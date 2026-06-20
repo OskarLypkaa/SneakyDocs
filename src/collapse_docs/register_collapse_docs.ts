@@ -3,19 +3,22 @@ import { CollapseDocsManager } from './collapse_docs_manager';
 import { TextDocumentManager } from './text_document_manager';
 import { PythonFoldingProvider } from './providers/python_provider';
 import { JSDocFoldingProvider } from './providers/jsdoc_provider';
+import { CStyleFoldingProvider } from './providers/c_style_provider';
 
 export async function registerCollapseDocs(context: vscode.ExtensionContext): Promise<void> {
     await hideFoldingHighlight(context);
 
     const pythonProvider = new PythonFoldingProvider();
     const jsdocProvider = new JSDocFoldingProvider();
+    const cStyleProvider = new CStyleFoldingProvider();
     const textDocs = new TextDocumentManager();
-    const manager = new CollapseDocsManager([pythonProvider, jsdocProvider], textDocs);
+    const manager = new CollapseDocsManager([pythonProvider, jsdocProvider, cStyleProvider], textDocs);
 
     context.subscriptions.push(
         manager,
         vscode.languages.registerFoldingRangeProvider(pythonProvider.getDocumentSelectorsMap(), pythonProvider),
         vscode.languages.registerFoldingRangeProvider(jsdocProvider.getDocumentSelectorsMap(), jsdocProvider),
+        vscode.languages.registerFoldingRangeProvider(cStyleProvider.getDocumentSelectorsMap(), cStyleProvider),
         vscode.commands.registerCommand('collapseDocs.toggle', () => manager.toggleDocs()),
         vscode.workspace.onDidChangeTextDocument(event => textDocs.syncFoldedLinesToEdits(event)),
         vscode.workspace.onDidCloseTextDocument(document => manager.forgetDocument(document)),

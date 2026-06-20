@@ -3,7 +3,7 @@
   "displayName": "Collapse Docs",
   "description": "Quickly collapse or uncollapse all docstrings and JSDoc comments via right-click menu.",
   "publisher": "Oskarlypka",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -33,6 +33,11 @@
     "onLanguage:typescript",
     "onLanguage:javascriptreact",
     "onLanguage:typescriptreact",
+    "onLanguage:c",
+    "onLanguage:cpp",
+    "onLanguage:java",
+    "onLanguage:csharp",
+    "onLanguage:rust",
     "onCommand:collapseDocs.toggle"
   ],
   "main": "./out/extension.js",
@@ -47,7 +52,7 @@
       "editor/context": [
         {
           "command": "collapseDocs.toggle",
-          "when": "editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python",
+          "when": "editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python || editorLangId == c || editorLangId == cpp || editorLangId == java || editorLangId == csharp || editorLangId == rust",
           "group": "collapseDocsGroup@1"
         }
       ]
@@ -56,7 +61,7 @@
       {
         "command": "collapseDocs.toggle",
         "key": "ctrl+shift+alt+d",
-        "when": "editorTextFocus && (editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python)"
+        "when": "editorTextFocus && (editorLangId == javascript || editorLangId == typescript || editorLangId == javascriptreact || editorLangId == typescriptreact || editorLangId == python || editorLangId == c || editorLangId == cpp || editorLangId == java || editorLangId == csharp || editorLangId == rust)"
       }
     ],
     "configuration": {

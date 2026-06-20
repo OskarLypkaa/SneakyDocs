@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.0] - 2026-06-13
+### Added
+- C-style language support: comments now fold in C, C++, Java, C#, and Rust
+  files, alongside the existing Python and JSDoc support. These languages share
+  one comment grammar, so a single folding provider handles them all: it folds
+  block comments (`/* ... */`, which covers doc variants `/** */` and `/*! */`)
+  and runs of two or more consecutive line comments (`//`, including `///` and
+  `//!`); single-line block comments, a lone line comment, or one trailing code
+  on the same line are left alone. Added via activation events and
+  context-menu/keybinding entries for the `c`, `cpp`, `java`, `csharp`, and
+  `rust` languages.
+
 ## [1.6.1] - 2026-06-13
 ### Changed
 - Modernized the development toolchain (no change to extension behavior):
