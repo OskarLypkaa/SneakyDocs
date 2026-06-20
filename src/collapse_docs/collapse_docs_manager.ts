@@ -35,6 +35,16 @@ export class CollapseDocsManager implements vscode.Disposable {
         }
     }
 
+    async collapseDocs(editor: vscode.TextEditor) {
+        const provider = this.getActiveProvider(editor);
+        if (!provider) return;
+
+        const ranges = provider.provideFoldingRanges(editor.document);
+        if (this.areDocsFolded(editor.document, ranges)) return;
+
+        await this.collapseDocsRun(editor, provider, ranges);
+    }
+
     forgetDocument(document: vscode.TextDocument) {
         this.textDocs.forget(document.uri.toString());
         for (const provider of this.providers) {

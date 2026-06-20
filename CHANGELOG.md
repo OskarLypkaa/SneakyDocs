@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2026-06-13
+### Added
+- New setting `collapseDocs.autoCollapseOnOpen` (default `false`), requested by
+  users. When enabled, documentation blocks are collapsed automatically the
+  first time a supported file is opened. Switching back to an already-open tab
+  does not re-collapse, so manually expanded docs stay expanded.
+  - Known limitation: the collapse happens a brief moment after the file appears
+    and can feel slightly abrupt. VS Code renders the file first and computes its
+    folding regions asynchronously afterwards; the extension waits for that model
+    before folding, because folding earlier would collapse the wrong region (for
+    example a whole function). There is no editor API to fold before the first
+    paint, so this small delay is expected.
+
 ## [1.5.0] - 2026-06-07
 ### Added
 - After collapsing, the editor keeps the line you were on centered in view, so

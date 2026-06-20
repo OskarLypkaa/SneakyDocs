@@ -18,8 +18,34 @@ export async function registerCollapseDocs(context: vscode.ExtensionContext): Pr
         vscode.languages.registerFoldingRangeProvider(jsdocProvider.getDocumentSelectorsMap(), jsdocProvider),
         vscode.commands.registerCommand('collapseDocs.toggle', () => manager.toggleDocs()),
         vscode.workspace.onDidChangeTextDocument(event => textDocs.syncFoldedLinesToEdits(event)),
-        vscode.workspace.onDidCloseTextDocument(document => manager.forgetDocument(document))
+        vscode.workspace.onDidCloseTextDocument(document => manager.forgetDocument(document)),
+        ...registerAutoCollapseOnOpen(manager)
     );
+}
+
+function registerAutoCollapseOnOpen(manager: CollapseDocsManager): vscode.Disposable[] {
+    const autoCollapsed = new Set<string>();
+
+    const run = (editor: vscode.TextEditor | undefined) => {
+        if (!editor || !autoCollapseEnabled()) return;
+
+        const uri = editor.document.uri.toString();
+        if (autoCollapsed.has(uri)) return;
+
+        autoCollapsed.add(uri);
+        manager.collapseDocs(editor).catch(error =>
+            console.error('Collapse Docs: auto-collapse on open failed', error));
+    };
+
+    run(vscode.window.activeTextEditor);
+    return [
+        vscode.window.onDidChangeActiveTextEditor(run),
+        vscode.workspace.onDidCloseTextDocument(document => autoCollapsed.delete(document.uri.toString()))
+    ];
+}
+
+function autoCollapseEnabled(): boolean {
+    return vscode.workspace.getConfiguration('collapseDocs').get<boolean>('autoCollapseOnOpen', false);
 }
 
 const PREVIOUS_FOLDING_HIGHLIGHT = 'collapseDocs.previousFoldingHighlight';
